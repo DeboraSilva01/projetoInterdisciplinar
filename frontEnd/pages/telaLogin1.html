@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/frontEnd/style/style.css">
+    <title>Tela de Login</title>
+</head>
+<body>
+    <header>
+        <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
+        
+       
+    </header>
+    <br>
+    <p><h1>teste</h1></p>
+    
+      <div class="container">
+        
+        <form class="formulario" id="form-login">
+            <h2>Login</h2>
+          <label for="nome">Nome</label>
+          <input type="text" id="nome" name="nome" required>
+    
+          <label for="senha">Senha</label>
+          <input type="password" id="senha" name="senha" required>
+
+          <label>
+            <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
+          </label>
+        
+          <p id="erro-senha" style="color: red; display: none;">As senhas não coincidem.</p>
+    
+          <button type="submit">Login</button>
+        </form>
+        
+      </div>
+      <script src="/frontEnd/scripts/scriptTelaLogin.js"></script>
+      <script src="/frontEnd/scripts/script-conferirSenha.js"></script>
+</body>
+</html>
