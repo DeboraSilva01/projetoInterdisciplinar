@@ -1,0 +1,62 @@
+/* Estilização do contêiner de edição */
+.evento-edicao {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Estilização dos inputs e textarea */
+  .evento-edicao input,
+  .evento-edicao textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+  }
+  
+  /* Estilização do textarea */
+  .evento-edicao textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+  
+  /* Estilização dos botões */
+  .evento-edicao .btn {
+    padding: 10px 16px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-right: 8px;
+    margin-top: 15px;
+  }
+  
+  .evento-edicao .btn-success {
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .evento-edicao .btn-success:hover {
+    background-color: #218838;
+  }
+  
+.evento-edicao .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: inline-block; /* Garante que o botão não ocupe o espaço inteiro */
+    width: auto; /* Remove o tamanho fixo */
+}
+  
+.evento-edicao .btn-danger:hover {
+    background-color: #c82333;
+}

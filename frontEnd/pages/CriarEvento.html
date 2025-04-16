@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Criar Evento</title>
+  <link rel="stylesheet" href="/frontEnd/style/style.css">
+  <link rel="stylesheet" href="/frontEnd/style/estilo-paginaCriarEvento.css" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
+   
+    <div class="icone-login">
+        <a href="/frontEnd/pages/telaLogin.html" class="text-white">
+            <i class="bi bi-person" ></i> Login
+          </a>
+    </div>  
+</header>
+
+  <div class="container">
+    <form id="form-evento" class="formulario">
+      <h2>Criar Novo Evento</h2>
+      <label for="titulo">Título:</label>
+      <input type="text" id="titulo" required />
+
+      <label for="local">Local:</label>
+      <input type="text" id="local" required />
+
+      <label for="equipamentos">Equipamentos Necessários</label>
+      <input type="text" id="equipamentos" required />
+      
+      <label for="data">Data:</label>
+      <input type="date" id="data" required />
+
+      <label for="hora">Hora Inicial:</label>
+      <input type="time" id="horaInicial" required />
+
+      <label for="hora">Hora Final:</label>
+      <input type="time" id="horaFinal" required />
+
+     <!-- <label for="imagem">URL da imagem:</label>
+      <input type="url" id="imagem" /> -->   
+
+      <label for="vagas">Vagas:</label>
+      <input type="number" id="vagas" required />
+
+      <label for="descricao">Descrição:</label>
+      <textarea name="descricao" id="descricao" class="descricao"></textarea>
+
+      <button type="submit">Criar</button>
+  
+    </form>
+  </div>
+
+  <script src="/frontEnd/scripts/scriptNovoEvento.js"></script>
+
+</body>
+</html>

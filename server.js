@@ -61,10 +61,12 @@ app.delete("/usuarios/:id", async (req, res)=>{
 
 
 // Rota para criar um evento (opcional, mas útil para inserir eventos)
-app.post('/eventos', async (req, res) => {
+app.post('/criarEventos', async (req, res) => {
+ // Verifica os dados recebidos
+  console.log(req.body); // Verifica os dados recebidos
     try {
         await db.inserirEventos(req.body);
-        res.sendStatus(201).json(evento); // Retorna o evento criado
+        res.status(201).json({ mensagem: "Evento criado com sucesso!"});
     } catch (error) {
         res.status(500).json({ message: 'Erro ao criar evento' });
     }
@@ -75,7 +77,10 @@ app.post('/eventos', async (req, res) => {
 app.get('/eventos', async (req, res) => {
   try {
     const eventos = await db.listarEventos();  // Recupera todos os eventos
+
     res.json(eventos);  // Retorna os eventos em formato JSON
+    
+    console.log(res.rows); 
   } catch (error) {
     res.status(500).json({ message: 'Erro ao recuperar eventos' });
   }
@@ -104,7 +109,7 @@ app.delete("/eventos/:id", async(req,res)=>{
     res.status(204).json({mensagem: "Evento deletado com sucesso!"});
   }catch(error){
     res.status(500).json({mensagem: "Erro ao deleta evento!"});
-    ef606202c17625891c949a7550a24a9f07ad64f7
+  
   }
 })
 
@@ -122,6 +127,21 @@ app.post("/login", async (req, res) => {
   } catch (error) {
     console.error("Erro ao fazer login:", error);
     res.status(500).json({ mensagem: "Erro no servidor" });
+  }
+});
+
+app.post("/eventos/:id/inscrever", async (req, res) => {
+  try {
+    const eventoId = req.params.id;
+    const { usuarioId } = req.body;
+
+    // Insere a inscrição no banco de dados
+    await db.inscreverUsuarioEvento(usuarioId, eventoId);
+
+    res.status(200).json({ mensagem: "Inscrição realizada com sucesso!" });
+  } catch (error) {
+    console.error("Erro ao inscrever usuário no evento:", error);
+    res.status(500).json({ mensagem: "Erro ao inscrever usuário no evento." });
   }
 });
 app.listen(port)

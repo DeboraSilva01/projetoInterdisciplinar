@@ -74,7 +74,17 @@ async function inserirEventos(eventos) {
     const conexao = await connect();
     const sql = "INSERT INTO evento (nomeevento, data, horainicial, horafinal, local, equipamentos, vagas, descricao) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)"
 
-    const values = [eventos.nomeevento, eventos.data, eventos.horainicial, eventos.horafinal, eventos.local, eventos.equipamentos, eventos.vagas, eventos.descricao];
+    const values = [
+        eventos.nomeevento,
+        eventos.data, 
+        eventos.horainicial, 
+        eventos.horafinal, 
+        eventos.local, 
+        eventos.equipamentos, 
+        eventos.vagas, 
+        eventos.descricao
+    ];
+
     await conexao.query(sql, values);
 
 }
@@ -86,9 +96,20 @@ async function buscarEvento(id) {
 }
 async function atulizarEvento(id, eventos) {
     const conexao = await connect();
-    const sql = "UPDATE evento SET data = $1, horainicial = $2, horafinal = $3 WHERE idevento = $4";
+    const sql = "UPDATE evento SET nomeevento = $1, data = $2, horainicial = $3, horafinal = $4, local = $5, equipamentos = $6, vagas = $7, descricao = $8 WHERE idevento = $9";
     // Atualiza os dados do evento com base no id do evento
-    const values = [eventos.data, eventos.horainicial, eventos.horafinal, id];
+    const values = [
+        eventos.nomeevento,
+        eventos.data, 
+        eventos.horainicial, 
+        eventos.horafinal, 
+        eventos.local, 
+        eventos.equipamentos, 
+        eventos.vagas, 
+        eventos.descricao,
+        id
+    ];
+    
     await conexao.query(sql, values);
     
 }
@@ -107,6 +128,23 @@ async function autenticarUsuario(nome, senha) {
     return res.rows[0]; // retorna o usuário se encontrou
 }
 
+async function inscreverUsuarioEvento(usuarioId, eventoId) {
+    const conexao = await connect();
+    const sql = `
+      INSERT INTO inscricao (idusuario, idevento, datainscricao, status)
+      VALUES ($1, $2, CURRENT_TIMESTAMP, 'pendente')
+    `;
+    await conexao.query(sql, [usuarioId, eventoId]);
+}
+
+async function verificarInscricao(usuarioId, eventoId) {
+    const conexao = await connect();
+    const sql = "SELECT * FROM inscricao WHERE idusuario = $1 AND idevento = $2";
+    const values = [usuarioId, eventoId];
+    const res = await conexao.query(sql, values);
+    return res.rows.length > 0; // Retorna true se o usuário estiver inscrito, caso contrário false
+}
+
 
 
 module.exports = {
@@ -120,5 +158,7 @@ module.exports = {
     buscarEvento,
     atulizarEvento,
     deletaEvento,
-    autenticarUsuario
+    autenticarUsuario,
+    inscreverUsuarioEvento,
+    verificarInscricao
 }
