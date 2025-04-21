@@ -1,13 +1,12 @@
 document.addEventListener("DOMContentLoaded", () => {
   const botaoInscrever = document.getElementById("btn-inscrever");
 
-  // Obtenha o ID do evento da URL (se ele estiver na query string)
   const urlParams = new URLSearchParams(window.location.search);
-  const eventoId = urlParams.get("idevento"); // Certifique-se de que o ID do evento está na URL
+  const idevento = urlParams.get("idevento");
 
-  // Verifique o estado da inscrição no localStorage
-  const inscrito = localStorage.getItem(`inscrito_evento_${eventoId}`);
-  if (inscrito === "true") {
+
+  // Verifica se o usuário já está inscrito via localStorage
+  if (localStorage.getItem(`inscrito_evento_${idevento}`) === "true") {
     botaoInscrever.textContent = "Inscrito!";
     botaoInscrever.classList.remove("btn-primary");
     botaoInscrever.classList.add("btn-success");
@@ -15,38 +14,50 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   botaoInscrever.addEventListener("click", async () => {
-    if (!eventoId) {
+    if (!idevento) {
       alert("ID do evento não encontrado!");
       return;
     }
 
+    const idusuario = 2; // <-- Substituir com o ID real do usuário logado
+    if (!idusuario) {
+      alert("ID do usuário não encontrado.");
+      return;
+    }
+
     try {
-      // Envia a inscrição para o backend
-      const resposta = await fetch(`http://localhost:3000/eventos/${eventoId}/inscrever`, {
+      const resposta = await fetch(`http://localhost:3000/eventos/${idevento}/inscrever`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
-        body: JSON.stringify({ usuarioId: 1 }) // Substitua pelo ID do usuário autenticado
+        body: JSON.stringify({ idusuario: 2 }),
       });
-
+    
+      const dados = await resposta.json();
+    
       if (resposta.ok) {
+        // Sucesso
         alert("Inscrição realizada com sucesso!");
-
-        // Atualize o botão e salve o estado no localStorage
+    
         botaoInscrever.textContent = "Inscrito!";
         botaoInscrever.classList.remove("btn-primary");
         botaoInscrever.classList.add("btn-success");
         botaoInscrever.disabled = true;
-
-        // Salve o estado da inscrição no localStorage
-        localStorage.setItem(`inscrito_evento_${eventoId}`, "true");
+    
+        localStorage.setItem(`inscrito_evento_${idevento}`, "true");
       } else {
-        alert("Erro ao realizar inscrição.");
+        // Caso o backend retorne erro, mas com mensagem útil
+        if (dados.mensagem === "Usuário já inscrito no evento.") {
+          alert("Você já está inscrito neste evento!");
+        } else {
+          alert("Erro ao realizar inscrição: " + dados.mensagem);
+        }
       }
     } catch (error) {
       console.error("Erro ao inscrever usuário:", error);
       alert("Erro ao realizar inscrição. Tente novamente mais tarde.");
     }
+    
   });
 });

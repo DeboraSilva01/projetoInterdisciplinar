@@ -1,5 +1,3 @@
-
-// Função para carregar eventos do backend e exibi-los no frontend
 async function carregarEventos() {
   try {
     // Faz uma requisição para a API do backend
