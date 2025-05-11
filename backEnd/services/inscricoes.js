@@ -1,6 +1,7 @@
 const inscricao = require("../models/inscricao"); // Importa o modelo de inscrição
 
 
+
 // Função para salvar uma nova inscrição
 async function salvarInscricao(dados) {
   try {

@@ -13,11 +13,12 @@
     <header>
         <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
         <nav>
-        <!-- <ul>
-                <li><a href="#home">Início</a></li>
-                <li><a href="#sobre">Sobre</a></li>
-                <li><a href="#contato">Contato</a></li>
-            </ul>-->    
+            <ul>
+                <li><a href="../pages/index.html">Home</a></li>
+                <li><a href="/frontEnd/pages/CriarEvento.html">Evento</a></li>
+                <li><a href="../pages/telaRegister.html">Cadastrar</a></li>
+                <li><a href="../pages/validaPresenca.html">Confirmar Presença</a></li>
+            </ul>  
            
         </nav>
         <div class="icone-login">
@@ -26,16 +27,26 @@
               </a>
         </div>  
     </header>
-    <p class="evento-titulo"></p>
-    <p class="descricao-evento"></p>
-    <p class="equipamentos-evento"></p>
-    <p class="data-evento"></p>
-    <p class="hora-evento"></p>
-    <p class="local-evento"></p>
-    <p class="vagas-evento"></p>
+    <div id="descricao-evento">
+        <p class="evento-titulo"></p>
+        <p class="descricao-evento"></p>
+        <p class="equipamentos-evento"></p>
+        <p class="data-evento"></p>
+        <p class="hora-evento"></p>
+        <p class="local-evento"></p>
+        <p class="vagas-evento"></p>
+        <div id="botao-inscricao"></div>
+      </div>
+
+      <div id="qrCodeContainer"></div>
    
 
-    <a id="btn-inscrever" class="btn btn-primary btn-lg mt-3">Cadastrar-se no Evento</a>
+
+      
+
+
+
+
 
     <script src="/frontEnd/scripts/inscreverUsuario.js"></script>
 

@@ -3,9 +3,9 @@ const sequelize = require("../db");
 
 const evento = sequelize.define("evento", {
   idevento: {
-          type: DataTypes.INTEGER,
-          primaryKey: true,
-          autoIncrement: true,
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
   },
   nomeevento: {
     type: DataTypes.STRING,
@@ -38,6 +38,14 @@ const evento = sequelize.define("evento", {
   descricao: {
     type: DataTypes.TEXT,
     allowNull: true,
+  },
+  qr_code: {
+    type: DataTypes.TEXT, // Armazena o QR Code como uma string base64
+    allowNull: true, // Permite valores nulos inicialmente
+  },
+  imagem: {
+    type: DataTypes.STRING, // Caminho ou URL da imagem
+    allowNull: true, // Permite valores nulos inicialmente
   },
 }, {
   tableName: "evento", // Nome da tabela no banco de dados

@@ -15,6 +15,7 @@ header {
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 10px;
+    align-items: center; /* Alinha os itens verticalmente */
     border-radius: 5px;
 }
 
@@ -81,6 +82,14 @@ button {
     z-index: 1;
 }
 
+.carrossel-controles{
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    display: flex;
+    justify-content: space-between; /* Espaça os botões nas extremidades */
+}
+
 /* Botão anterior */
 .prev {
     left: 0;
@@ -126,7 +135,9 @@ button {
     margin: 20px; /* Espaçamento ao redor */
     padding: 30px; /* Espaçamento interno */
     max-width: 400px; /* Largura máxima para a postagem */
+    height: auto; 
     flex-direction: column;
+
 }
 
 .evento-img {
@@ -139,10 +150,16 @@ button {
 
 .evento-info {
     flex: 1; /* Ocupa o restante do espaço disponível */
+    overflow: hidden; /* Garante que o texto não ultrapasse o contêiner */
+    width: 350px;
+    height: auto; 
+    text-overflow: ellipsis; /* Adiciona reticências ao final do texto cortado */
+    white-space: nowrap; /* Impede que o texto quebre em várias linhas */
+
 }
 
 .evento-titulo {
-    font-size: 25px;
+    font-size: 20px;
     font-weight: bold;
     color: #333;
     margin-bottom: 5px;
@@ -153,8 +170,9 @@ button {
     color: #555;
 }
 .descricao-evento{
-    font-size: 25px;
+    font-size: 20px;
     color: #333;
+
 }
 .link-postagem {
     text-decoration: none; /* Remove o sublinhado do link */
@@ -230,4 +248,35 @@ button {
 .formulario .descricao{
     padding: 5px 20px 20px 5px;
     border: 1px solid #ccc;
+}
+
+.evento-info .btn.btn-primary.btn-lg.mt-3 {
+    text-decoration: none;
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    border-radius: 10px;
+    padding: 5px 25px;
+    margin-top: 10px;
+    background-color: #28a745;
+    color: #fff;
+    font-size: 16px;
+    font-weight: bold;
+    height: 45px;
+    width: 150px;
+}
+
+.mostrarSenha{
+display: flex;
+flex-direction: row;
+align-items: center;
+height: 45px;
+gap: 10px;
+
+}
+
+.mostrarSenha input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    background-color: #FFD700;/
 }

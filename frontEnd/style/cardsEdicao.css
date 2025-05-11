@@ -1,12 +1,15 @@
 /* Estilização do contêiner de edição */
-.evento-edicao {
-    background-color: #f9f9f9;
+.evento-edicao{
+    display: flex;
+    flex-direction: column;
+    background-color: #ffffff;
     border: 1px solid #ddd;
     border-radius: 8px;
     padding: 16px;
     margin-bottom: 16px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   }
+
   
   /* Estilização dos inputs e textarea */
   .evento-edicao input,

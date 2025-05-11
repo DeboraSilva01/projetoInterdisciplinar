@@ -8,14 +8,25 @@
     <title>Tela de Login</title>
 </head>
 <body>
-    <header>
-        <img src="/images/logo-tecnoeco.png" alt="TecnoEco" height="80px" >
-        
+  <header>
+    <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
+    <nav>
+        <ul>
+            <li><a href="../pages/index.html">Home</a></li>
+            <li><a href="/frontEnd/pages/CriarEvento.html">Evento</a></li>
+            <li><a href="../pages/telaRegister.html">Cadastrar</a></li>
+            <li><a href="../pages/validaPresenca.html">Confirmar Presença</a></li>
+        </ul>  
        
-    </header>
+    </nav>
+    <div class="icone-login">
+        <a href="/frontEnd/pages/telaLogin.html" class="text-white">
+            <i class="bi bi-person" ></i> Login
+          </a>
+    </div>  
+</header>
     <br>
-    <p><h1>teste</h1></p>
-    
+
       <div class="container">
         
         <form class="formulario" id="form-cadastro">
@@ -41,9 +52,10 @@
           <label for="confirmar">Confirmar Senha</label>
           <input type="password" id="confirmar" name="confirmar" required>
 
-          <label>
-            <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
-          </label>
+          <div class="mostrarSenha">
+            <label>Mostrar Senha</label>
+            <input type="checkbox" onclick="mostrarSenha()"> 
+          </div>
         
           <p id="erro-senha" style="color: red; display: none;">As senhas não coincidem.</p>
     

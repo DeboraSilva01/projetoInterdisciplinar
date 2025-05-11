@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const port =  process.env.PORT; // acessa a port
+const path = require("path");
 
 const registerRoutes = require("./backEnd/routes/routeRegister");
 const loginRoutes = require("./backEnd/routes/routeLogin");
@@ -21,6 +22,7 @@ app.use(loginRoutes);
 app.use(eventosRoutes); // Rota para eventos
 app.use(usuariosRoutes);
 app.use(inscricoesRoutes);
+app.use("/frontEnd/images/qrcodes", express.static(path.join(__dirname, "frontEnd/images/qrcodes")));
 
 app.get("/",(req, res)=>{
     res.json({

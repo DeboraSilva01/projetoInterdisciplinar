@@ -1,34 +1,31 @@
-document.getElementById("form-login").addEventListener("submit", async function (event) {
+document.getElementById("form-login").addEventListener("submit", async (event) => {
   event.preventDefault();
-  const token = localStorage.getItem('token');
 
-
-  // Captura os valores dos campos de entrada
   const nome = document.getElementById("nome").value;
   const senha = document.getElementById("senha").value;
-  
 
   try {
     const resposta = await fetch("http://localhost:3000/login", {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ nome, senha }),
     });
 
     if (resposta.ok) {
       const dados = await resposta.json();
+
+      // Armazena o token e o idusuario no localStorage
+      localStorage.setItem("token", dados.token);
+      localStorage.setItem("idusuario", dados.idusuario);
+
       alert("Login realizado com sucesso!");
-      console.log("Usuário logado:", dados.usuario);
-      // Redirecionar para outra página, se necessário
-      window.location.href = "index.html";
-      localStorage.setItem("idusuario", usuario.id); // Armazena o ID do usuário no localStorage
+      window.location.href = "index.html"; // Redireciona para a página inicial
     } else {
-      document.getElementById("erro-login").style.display = "block";
+      const erro = await resposta.json();
+      alert(erro.message || "Erro ao realizar login.");
     }
   } catch (error) {
-    console.error("Erro ao fazer login:", error);
-    alert("Erro ao fazer login. Tente novamente mais tarde.");
+    console.error("Erro ao realizar login:", error);
+    alert("Erro ao realizar login. Tente novamente mais tarde.");
   }
 });

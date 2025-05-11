@@ -9,9 +9,17 @@
 <body>
     <header>
         <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
-    </header>
+        <nav>
+          <ul>
+            <li><a href="../pages/index.html">Home</a></li>
+              <li><a href="/frontEnd/pages/CriarEvento.html">Evento</a></li>
+              <li><a href="../pages/telaRegister.html">Cadastrar</a></li>
+              <li><a href="../pages/validaPresenca.html">Confirmar Presença</a></li>
+          </ul>  
+         
+      </nav>
+      </header>
     <br>
-    <p><h1>teste</h1></p>
     
       <div class="container">
         
@@ -22,10 +30,13 @@
     
           <label for="senha">Senha</label>
           <input type="password" id="senha" name="senha" required>
+          <div class="mostrarSenha">
+            <label>Mostrar Senha</label>
+            <input type="checkbox" onclick="mostrarSenha()"> 
+          </div>
 
-          <label>
-            <input type="checkbox" onclick="mostrarSenha()"> Mostrar Senha
-          </label>
+          <a href="/frontEnd/pages/telaRegister.html">Não tem uma conta?</a>
+
         
           <p id="erro-senha" style="color: red; display: none;">As senhas não coincidem.</p>
           <button type="submit">Login</button>

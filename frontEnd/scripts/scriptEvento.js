@@ -1,20 +1,43 @@
+
+
+
+
 async function carregarEventos() {
+  const token = localStorage.getItem("token");
+  const idusuario = localStorage.getItem("idusuario");
+  console.log("ID do usuário:", idusuario);
+
   try {
-    // Faz uma requisição para a API do backend
-    const resposta = await fetch("http://localhost:3000/eventos"); // Substitua pela URL correta do backend
-    const eventos = await resposta.json(); // Converte a resposta para JSON
+    // Carrega os eventos
+    const respostaEventos = await fetch("http://localhost:3000/eventos", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-    // Seleciona o contêiner onde os eventos serão exibidos
+    if (!respostaEventos.ok) {
+      alert("Erro ao carregar eventos. Faça login novamente.");
+      window.location.href = "login.html";
+      return;
+    }
+
+    const eventos = await respostaEventos.json();
+    console.log("Eventos carregados:", eventos);
+
+    // Renderiza os eventos na página
     const container = document.getElementById("eventos-container");
+    container.innerHTML = ""; // Limpa o container antes de renderizar os eventos
 
-    // Itera sobre os eventos e cria elementos HTML para exibi-los
-    eventos.forEach(evento => {
+    eventos.forEach((evento) => {
       const eventoDiv = document.createElement("div");
       eventoDiv.classList.add("exemplo-postagem");
-      console.log(evento)
+    
+      // Usa a imagem do evento ou uma imagem padrão
+      const imagem = evento.imagem || "/frontEnd/images/default-event.png";
     
       eventoDiv.innerHTML = `
-        <img src="${evento.imagem || '/frontEnd/images/default-event.png'}" alt="${evento.nomeevento}" class="evento-img">
+        <img src="${imagem}" alt="${evento.nomeevento}" class="evento-img">
         <div class="evento-info">
           <h3 class="evento-titulo">${evento.nomeevento}</h3>
           <p class="evento-local"><strong>Local:</strong> ${evento.local}</p>
@@ -23,22 +46,27 @@ async function carregarEventos() {
           <p class="descricao-evento"><strong>Data:</strong> ${new Date(evento.data).toLocaleDateString()}</p>
           <p class="descricao-evento"><strong>Hora:</strong> ${evento.horainicial} - ${evento.horafinal}</p>
           <p class="descricao-evento"><strong>Vagas:</strong> ${evento.vagas}</p>
-          <a href="/frontEnd/pages/descricaoEvento.html?idevento=${evento.idevento}" class="btn btn-primary btn-lg mt-3">Ver Detalhes</a>
+          <a href="/frontEnd/pages/descricaoEvento.html?idevento=${evento.idevento}" class="btn btn-primary btn-lg mt-3">Escreva-se</a>
         </div>
       `;
-    
-      // Adiciona o evento de duplo clique para editar o evento
-      eventoDiv.addEventListener("dblclick", () => {
-        editarEvento(evento, eventoDiv);
-      });
-    
+
+            // Adiciona o evento de duplo clique para editar o evento
+            eventoDiv.addEventListener("dblclick", () => {
+              editarEvento(evento, eventoDiv);
+            });
+
       container.appendChild(eventoDiv);
     });
   } catch (error) {
     console.error("Erro ao carregar eventos:", error);
+    alert("Ocorreu um erro ao carregar os eventos. Tente novamente mais tarde.");
   }
 }
 
+// Função para redirecionar para a página de descrição do evento
+function abrirDescricaoEvento(idevento) {
+  window.location.href = `descricaoEvento.html?idevento=${idevento}`;
+}
 
 // Inicializa as funções ao carregar a página
 document.addEventListener("DOMContentLoaded", () => {
