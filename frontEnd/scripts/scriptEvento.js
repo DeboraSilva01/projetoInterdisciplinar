@@ -1,10 +1,8 @@
 
 
 
-
 async function carregarEventos() {
-  const token = localStorage.getItem("token");
-  const idusuario = localStorage.getItem("idusuario");
+  const idusuario = localStorage.getItem("idusuario"); // ID do usuário autenticado
   console.log("ID do usuário:", idusuario);
 
   try {
@@ -25,6 +23,10 @@ async function carregarEventos() {
     const eventos = await respostaEventos.json();
     console.log("Eventos carregados:", eventos);
 
+    // Carrega as inscrições do usuário
+    const respostaInscricoes = await fetch(`http://localhost:3000/inscricoes/${idusuario}`);
+    const eventosInscritos = await respostaInscricoes.json();
+
     // Renderiza os eventos na página
     const container = document.getElementById("eventos-container");
     container.innerHTML = ""; // Limpa o container antes de renderizar os eventos
@@ -32,10 +34,22 @@ async function carregarEventos() {
     eventos.forEach((evento) => {
       const eventoDiv = document.createElement("div");
       eventoDiv.classList.add("exemplo-postagem");
-    
+
       // Usa a imagem do evento ou uma imagem padrão
       const imagem = evento.imagem || "/frontEnd/images/default-event.png";
-    
+
+      // Define o texto e o estado do botão com base no organizador e nas inscrições
+      let botaoInscreverTexto = "Inscrever-se";
+      let botaoInscreverDesabilitado = false;
+
+      if (evento.idorganizacao == idusuario) {
+        botaoInscreverTexto = "Seu Evento";
+        botaoInscreverDesabilitado = true;
+      } else if (eventosInscritos.includes(evento.idevento)) {
+        botaoInscreverTexto = "Inscrito";
+        botaoInscreverDesabilitado = true;
+      }
+
       eventoDiv.innerHTML = `
         <img src="${imagem}" alt="${evento.nomeevento}" class="evento-img">
         <div class="evento-info">
@@ -46,14 +60,28 @@ async function carregarEventos() {
           <p class="descricao-evento"><strong>Data:</strong> ${new Date(evento.data).toLocaleDateString()}</p>
           <p class="descricao-evento"><strong>Hora:</strong> ${evento.horainicial} - ${evento.horafinal}</p>
           <p class="descricao-evento"><strong>Vagas:</strong> ${evento.vagas}</p>
-          <a href="/frontEnd/pages/descricaoEvento.html?idevento=${evento.idevento}" class="btn btn-primary btn-lg mt-3">Escreva-se</a>
+          <div class="evento-botoes">
+            <button class="btn btn-secondary btn-lg mt-3" onclick="abrirDescricaoEvento(${evento.idevento})">Ver Detalhes</button>
+            <button class="btn btn-primary btn-lg mt-3" data-id="${evento.idevento}" ${botaoInscreverDesabilitado ? "disabled" : ""}>
+              ${botaoInscreverTexto}
+            </button>
+          </div>
         </div>
       `;
 
-            // Adiciona o evento de duplo clique para editar o evento
-            eventoDiv.addEventListener("dblclick", () => {
-              editarEvento(evento, eventoDiv);
-            });
+      // Adiciona evento de clique ao botão "Inscrever-se"
+      const botaoInscrever = eventoDiv.querySelector(".btn-primary");
+      botaoInscrever.addEventListener("click", () => {
+        if (!botaoInscreverDesabilitado) {
+          inscreverEvento(evento.idevento).then(() => {
+            botaoInscrever.textContent = "Inscrito";
+            botaoInscrever.disabled = true;
+
+            // Atualiza o botão na descrição do evento, se necessário
+            atualizarBotaoDescricao(evento.idevento);
+          });
+        }
+      });
 
       container.appendChild(eventoDiv);
     });
@@ -62,6 +90,16 @@ async function carregarEventos() {
     alert("Ocorreu um erro ao carregar os eventos. Tente novamente mais tarde.");
   }
 }
+
+function atualizarBotaoDescricao(idevento) {
+  const botaoDescricao = document.querySelector(`#botao-inscricao-${idevento}`);
+  if (botaoDescricao) {
+    botaoDescricao.textContent = "Inscrito";
+    botaoDescricao.disabled = true;
+  }
+}
+
+
 
 // Função para redirecionar para a página de descrição do evento
 function abrirDescricaoEvento(idevento) {
@@ -72,6 +110,32 @@ function abrirDescricaoEvento(idevento) {
 document.addEventListener("DOMContentLoaded", () => {
   carregarEventos();
 });
+
+
+async function inscreverEvento(idevento) {
+  const idusuario = localStorage.getItem("idusuario");
+
+  try {
+    const resposta = await fetch(`http://localhost:3000/eventos/${idevento}/inscrever`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ idusuario }),
+    });
+
+    if (resposta.ok) {
+      alert("Inscrição realizada com sucesso!");
+      return true; // Retorna sucesso
+    } else {
+      alert("Erro ao realizar inscrição.");
+      return false; // Retorna falha
+    }
+  } catch (error) {
+    console.error("Erro ao realizar inscrição:", error);
+    return false; // Retorna falha
+  }
+}
 
 
 

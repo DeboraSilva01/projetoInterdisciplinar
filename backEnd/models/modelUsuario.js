@@ -5,9 +5,9 @@ const usuario = sequelize.define(
   "usuario",
   {
     idusuario: {
-        type: DataTypes.INTEGER,
-        primaryKey: true,
-        autoIncrement: true,
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     nome: {
       type: DataTypes.STRING,
@@ -33,6 +33,11 @@ const usuario = sequelize.define(
     endereco: {
       type: DataTypes.STRING,
       allowNull: true,
+    },
+    role: {
+      type: DataTypes.ENUM("user", "org"), // Define os papéis possíveis
+      allowNull: false,
+      defaultValue: "user", // Define o valor padrão como "user"
     },
   },
   {

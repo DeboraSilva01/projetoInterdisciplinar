@@ -1,0 +1,58 @@
+/* Estilizando o cabeçalho */
+header {
+  display: flex;
+  background-color: #37c23e; /* Azul vivo */
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  justify-content: space-between;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+/* Estilizando o logo */
+header img {
+  height: 60px;
+}
+
+/* Estilizando a navegação */
+nav ul {
+  list-style-type: none;
+  display: flex;
+  gap: 30px;
+  margin: 0;
+  padding: 0;
+}
+
+/* Estilizando os links */
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav ul li a:hover {
+  color: #FFD700; /* Dourado ao passar o mouse */
+}
+
+/* Estilizando o botão de login */
+.icone-login a {
+  background-color: white;
+  color: #2b7a2f;
+  padding: 6px 12px;
+  border-radius: 5px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.icone-login a:hover {
+  background-color: #FFD700;
+
+}
+
+.icone-login i {
+  margin-right: 4px;
+}

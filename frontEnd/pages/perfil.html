@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instituto Verde Vivo</title>
+    <script src="https://unpkg.com/html5-qrcode"></script>
+  <link rel="stylesheet" href="../style/perfil.css" />
+  <link rel="stylesheet" href="../style/qrCode.css">
+</head>
+<body>
+
+    <div id="header"></div>
+
+  <div class="container">
+    <div class="profile-header">
+      <div class="avatar"></div>
+      <div class="profile-info">
+        <h1>Instituto Verde Vivo</h1>
+        <p class="email">contato@verdevivo.org</p>
+        <div class="stats">
+          <span class="badge green">0 pontos</span>
+          <span class="badge blue">0 eventos participados</span>
+          <span class="badge purple">2 eventos criados</span>
+        </div>
+      </div>
+      <div class="buttons">
+        <button onclick="abrirModal()" class="btn qr">📷 Escanear QR Code</button>
+        <a href="../pages/telaRegister.html" id="CreateEvent">Criar Evento</a>
+
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab active">Eventos Participados</button>
+      <button class="tab">Eventos Criados</button>
+    </div>
+
+    <div class="content">
+      <p>Você ainda não participou de nenhum evento.</p>
+      <button class="btn explore">Explorar eventos</button>
+    </div>
+
+
+      <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="fecharModal()">&times;</span>
+      <h2>Escanear QR Code do Evento</h2>
+      <div id="reader" style="width: 300px; margin: 20px auto;"></div>
+      <p id="eventoNomeModal"></p>
+    </div>
+  </div>
+
+
+  </div>
+
+    <div>
+        <footer></footer>
+    </div>
+
+    <script src="../scripts/leitorQrCode.js"></script>
+    <script src="/frontEnd/scripts/footer.js"></script>
+    <script src="/frontEnd/scripts/headerLoader.js"></script>
+</body>
+</html>

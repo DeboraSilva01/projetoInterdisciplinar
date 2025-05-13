@@ -9,24 +9,8 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css" rel="stylesheet">
 </head>
 <body>
-  <header>
-    <img src="/frontEnd/images/logo-tecnoeco.PNG" alt="TecnoEco" height="80px" >
-    <nav>
-      <ul>
-          <li><a href="../pages/index.html">Home</a></li>
-          <li><a href="/frontEnd/pages/CriarEvento.html">Evento</a></li>
-          <li><a href="../pages/telaRegister.html">Cadastrar</a></li>
-          <li><a href="../pages/validaPresenca.html">Confirmar Presença</a></li>
-      </ul>  
-     
-  </nav>
-   
-    <div class="icone-login">
-        <a href="/frontEnd/pages/telaLogin.html" class="text-white">
-            <i class="bi bi-person" ></i> Login
-          </a>
-    </div>  
-</header>
+<div id="header"></div>
+
 
   <div class="container">
     <form id="form-evento" class="formulario">
@@ -57,13 +41,27 @@
 
       <label for="descricao">Descrição:</label>
       <textarea name="descricao" id="descricao" class="descricao"></textarea>
-
       <button type="submit">Criar</button>
+      
   
     </form>
+    <form id="form-recompensa" >
+  <h2>Cadastro da Recompensa</h2>
+  <textarea id="descricaoRecompensa" placeholder="Descrição da Recompensa" required></textarea>
+  <input type="text" id="desconto" placeholder="Desconto (ex: 10%)" required />
+  <input type="date" id="validade" required />
+  <button id="salvarRecompensa">Salvar Evento e Recompensa</button>
+
+</form>
+  </div>
+  <div>
+    <footer></footer>
   </div>
 
   <script src="/frontEnd/scripts/scriptNovoEvento.js"></script>
+
+  <script src="/frontEnd/scripts/headerLoader.js"></script>
+    <script src="/frontEnd/scripts/footer.js"></script>
 
 </body>
 </html>

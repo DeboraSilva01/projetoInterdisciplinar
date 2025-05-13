@@ -17,6 +17,7 @@ document.getElementById("form-login").addEventListener("submit", async (event) =
       // Armazena o token e o idusuario no localStorage
       localStorage.setItem("token", dados.token);
       localStorage.setItem("idusuario", dados.idusuario);
+        localStorage.setItem("role", dados.role); // <-- ADICIONE AQUI
 
       alert("Login realizado com sucesso!");
       window.location.href = "index.html"; // Redireciona para a página inicial

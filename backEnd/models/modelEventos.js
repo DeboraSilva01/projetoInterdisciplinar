@@ -7,6 +7,14 @@ const evento = sequelize.define("evento", {
     primaryKey: true,
     autoIncrement: true,
   },
+  idorganizacao: { // Agora referenciando a tabela `usuario`
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: "usuario", // Nome da tabela referenciada
+      key: "idusuario", // Nome da coluna referenciada
+    },
+  },
   nomeevento: {
     type: DataTypes.STRING,
     allowNull: false,

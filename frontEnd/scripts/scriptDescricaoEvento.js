@@ -1,5 +1,5 @@
 async function carregarDescricaoEvento() {
-  const idusuario = localStorage.getItem("idusuario");
+  const idusuario = localStorage.getItem("idusuario"); // ID do usuário autenticado
   const params = new URLSearchParams(window.location.search);
   const idevento = params.get("idevento"); // Obtém o ID do evento da URL
 
@@ -21,31 +21,33 @@ async function carregarDescricaoEvento() {
     document.querySelector(".vagas-evento").textContent = `Vagas: ${evento.vagas}`;
 
     // Atualiza o botão de inscrição
-    const respostaInscricoes = await fetch(`http://localhost:3000/inscricoes/${idusuario}`);
-    if (!respostaInscricoes.ok) {
-      throw new Error("Erro ao carregar inscrições.");
-    }
-    const eventosInscritos = await respostaInscricoes.json();
-    const inscrito = eventosInscritos.includes(parseInt(idevento));
-
     const botaoInscricao = document.getElementById("botao-inscricao");
-    botaoInscricao.innerHTML = inscrito
-      ? `<button class="btn btn-success btn-lg mt-3" disabled>Inscrito</button>`
-      : `<button class="btn btn-primary btn-lg mt-3" onclick="inscreverEvento(${idevento})">Inscrever-se</button>`;
 
-    // Atualiza a imagem do QR Code
-        // Adiciona o botão para redirecionar para a página do QR Code
-        const qrCodeButton = document.createElement("button");
-        qrCodeButton.textContent = "Ver QR Code";
-        qrCodeButton.className = "btn btn-secondary btn-lg mt-3";
-        qrCodeButton.onclick = () => {
-          const qrCodePath = evento.qrCodePath || `/frontEnd/images/qrcodes/${evento.qr_code}.png`;
-          const nomeEvento = evento.nomeevento;
+    if (evento.idorganizacao == idusuario) {
+      // Se o usuário for o organizador, exibe o QR Code
+      const qrCodeContainer = document.getElementById("qrCodeContainer");
+      const qrCodePath = evento.qrCodePath || `/frontEnd/images/qrcodes/${evento.qr_code}.png`;
 
-          window.location.href = `qrcode.html?qrCodePath=${encodeURIComponent(qrCodePath)}&nomeEvento=${encodeURIComponent(nomeEvento)}`;
+      qrCodeContainer.innerHTML = `
+        <h3>QR Code do Evento</h3>
+        <img src="${qrCodePath}" alt="QR Code do Evento" class="qr-code-img">
+      `;
+
+      // Remove o botão de inscrição
+      botaoInscricao.innerHTML = ""; 
+    } else {
+      // Verifica se o usuário já está inscrito no evento
+      const respostaInscricoes = await fetch(`http://localhost:3000/inscricoes/${idusuario}`);
+      if (!respostaInscricoes.ok) {
+        throw new Error("Erro ao carregar inscrições.");
+      }
+      const eventosInscritos = await respostaInscricoes.json();
+      const inscrito = eventosInscritos.includes(parseInt(idevento));
+
+      botaoInscricao.innerHTML = inscrito
+        ? `<button class="btn btn-success btn-lg mt-3" disabled>Inscrito</button>`
+        : `<button class="btn btn-primary btn-lg mt-3" onclick="inscreverEvento(${idevento})">Inscrever-se</button>`;
     }
-    document.getElementById("qrCodeContainer").appendChild(qrCodeButton);
-    
   } catch (error) {
     console.error("Erro ao carregar a descrição do evento:", error);
   }

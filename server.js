@@ -10,6 +10,7 @@ const loginRoutes = require("./backEnd/routes/routeLogin");
 const eventosRoutes = require("./backEnd/routes/routeEventos");
 const usuariosRoutes = require("./backEnd/routes/routeUsuarios");
 const inscricoesRoutes = require("./backEnd/routes/routeInscricoes");
+const recompensaRoutes = require("./backEnd/routes/routeRecompensa");
 
 const app = express();
 app.use(cors())
@@ -22,6 +23,7 @@ app.use(loginRoutes);
 app.use(eventosRoutes); // Rota para eventos
 app.use(usuariosRoutes);
 app.use(inscricoesRoutes);
+app.use(recompensaRoutes); 
 app.use("/frontEnd/images/qrcodes", express.static(path.join(__dirname, "frontEnd/images/qrcodes")));
 
 app.get("/",(req, res)=>{

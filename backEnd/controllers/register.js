@@ -1,34 +1,44 @@
 const bcrypt = require("bcryptjs");
-
-const Usuario = require("../models/modelUsuario"); // Importa o modelo de usuário
+const Usuario = require("../models/modelUsuario");
 
 async function register(req, res) {
-  const { nome, email, senha, cpf, contato, endereco } = req.body;
+  const { nome, cpf, contato, email, senha, endereco } = req.body;
 
   try {
-    // Verifica se o e-mail já está cadastrado
-    const usuarioExistente = await Usuario.findOne({ where: { email } });
-    if (usuarioExistente) {
-      return res.status(400).json({ message: "Email já cadastrado." });
+    console.log("Dados recebidos para cadastro:", req.body);
+
+    // Verifica se o nome já está cadastrado
+    const existingUser = await Usuario.findOne({ where: { nome } });
+    if (existingUser) {
+      return res.status(400).json({ mensagem: "Nome já cadastrado." });
     }
 
-    // Hash da senha
+    // Valida CPF ou CNPJ
+    if (!cpf || (cpf.length !== 11 && cpf.length !== 14)) {
+      return res.status(400).json({ mensagem: "CPF ou CNPJ inválido." });
+    }
+
+    // Define o papel (role) com base no CPF ou CNPJ
+    const role = cpf.length === 11 ? "user" : "org";
+
+    // Criptografa a senha
     const hashedPassword = await bcrypt.hash(senha, 10);
 
-    // Salva o usuário no banco de dados com Sequelize
-    await Usuario.create({
+    // Cria o usuário no banco de dados
+    const novoUsuario = await Usuario.create({
       nome,
-      email,
-      senha: hashedPassword, // Salva a senha com hash
       cpf,
       contato,
+      email,
+      senha: hashedPassword,
       endereco,
+      role,
     });
 
-    res.status(201).json({ message: "Usuário salvo com sucesso!" });
+    res.status(201).json({ mensagem: "Usuário registrado com sucesso!", idusuario: novoUsuario.idusuario });
   } catch (error) {
-    console.error("Erro ao salvar usuário:", error);
-    res.status(500).json({ message: "Erro ao salvar usuário." });
+    console.error("Erro ao registrar usuário:", error);
+    res.status(500).json({ mensagem: "Erro ao registrar usuário." });
   }
 }
 

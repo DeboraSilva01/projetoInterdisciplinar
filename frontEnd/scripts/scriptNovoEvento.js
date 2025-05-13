@@ -1,9 +1,17 @@
-
 const form = document.getElementById("form-evento");
+
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
+  const token = localStorage.getItem("token");
+  console.log("Token:", token);
+  if (!token) {
+    alert("Você precisa estar logado para criar um evento.");
+    return;
+  }
+
+  // Criar evento
   const novoEvento = {
     nomeevento: document.getElementById("titulo").value,
     local: document.getElementById("local").value,
@@ -13,33 +21,65 @@ form.addEventListener("submit", async (event) => {
     horafinal: document.getElementById("horaFinal").value,
     vagas: document.getElementById("vagas").value,
     descricao: document.getElementById("descricao").value,
-    qr_code: null, // O QR Code será gerado no backend
-    imagem: document.getElementById("imagem").value // O caminho da imagem pode ser enviado, se necessário
+    imagem: document.getElementById("imagem").value,
   };
-  console.log("Dados do evento enviados:", novoEvento);
 
   try {
-    const resposta = await fetch("http://localhost:3000/criarEventos", {
+    // Criar evento primeiro
+    const respostaEvento = await fetch("http://localhost:3000/criarEventos", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify(novoEvento)
     });
 
-    if (resposta.status === 201) {
-      const dados = await resposta.json(); // Lê a resposta como JSON
-      console.log("Resposta do backend:", dados);
-      alert("Evento criado com sucesso: " + dados.mensagem);
-      window.location.href = "index.html"; // Redireciona para a página inicial
-    } else {
-      const erro = await resposta.json(); // Lê o erro como JSON
-      console.error("Erro na resposta do backend:", erro);
-      alert("Erro ao criar evento: " + (erro.mensagem || "Erro desconhecido"));
+    if (respostaEvento.status !== 201) {
+      const erro = await respostaEvento.json();
+      throw new Error(erro.mensagem || "Erro ao criar evento");
     }
-  } 
-  catch (error) {
-    console.error("Erro ao criar evento:", error);
-    alert("Erro ao criar evento. Tente novamente mais tarde.");
+
+    const dadosEvento = await respostaEvento.json();
+    console.log("Dados do evento recebido:", dadosEvento);
+
+    // Pegando corretamente o ID do evento
+    const idevento = dadosEvento.evento?.idevento || dadosEvento.idevento;
+    if (!idevento) {
+      throw new Error("O ID do evento não foi encontrado.");
+    }
+
+    console.log("ID do evento:", idevento);
+
+    // Criar a recompensa associada ao evento
+    const novaRecompensa = {
+      idevento: idevento,
+      descricao: document.getElementById("descricaoRecompensa").value,
+      desconto: document.getElementById("desconto").value,
+      validade: document.getElementById("validade").value
+    };
+
+    console.log("Dados da recompensa:", novaRecompensa);
+
+    const respostaRecompensa = await fetch("http://localhost:3000/criarRecompensa", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      },
+      body: JSON.stringify(novaRecompensa)
+    });
+
+    if (respostaRecompensa.status !== 201) {
+      const erro = await respostaRecompensa.json();
+      throw new Error(erro.mensagem || "Erro ao criar recompensa");
+    }
+
+    alert("Evento e recompensa criados com sucesso!");
+    window.location.href = "index.html";
+
+  } catch (error) {
+    console.error("Erro:", error);
+    alert("Erro: " + error.message);
   }
 });
