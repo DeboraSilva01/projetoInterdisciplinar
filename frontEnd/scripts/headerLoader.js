@@ -31,4 +31,6 @@ async function carregarHeader() {
   }
 }
 
+
+
 document.addEventListener("DOMContentLoaded", carregarHeader);

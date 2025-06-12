@@ -1,0 +1,36 @@
+body {
+  background-color: #f5f5f5;
+}
+#descricao-evento {
+  width: 95vw;
+  margin: 50px auto;
+  padding: 30px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+#descricao-evento p {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.evento-titulo {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1a7f37;
+  margin-bottom: 20px;
+}
+
+#botao-inscricao {
+  margin-top: 20px;
+}
+
+#qrCodeContainer {
+  margin-top: 30px;
+}
+
+
+

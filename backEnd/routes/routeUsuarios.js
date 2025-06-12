@@ -1,17 +1,27 @@
 const express = require("express");
-const Usuario = require("../models/modelUsuario");
+const {
+  listarTodosUsuarios,
+  buscarUsuarioPorId,
+  criarUsuario,
+  atualizarUsuarioPorId,
+  deletarUsuarioPorId,
+} = require("../controllers/usuarios");
 
 const router = express.Router();
 
 // Rota para listar todos os usuários
-router.get("/usuarios", async (req, res) => {
-  try {
-    const usuarios = await Usuario.findAll(); // Busca todos os usuários no banco
-    res.json(usuarios); // Retorna os dados em formato JSON
-  } catch (error) {
-    console.error("Erro ao buscar usuários:", error); // Log do erro no console
-    res.status(500).json({ error: "Erro ao buscar usuários" }); // Retorna o erro ao cliente
-  }
-});
+router.get("/usuarios", listarTodosUsuarios);
+
+// Rota para buscar usuário por ID
+router.get("/usuarios/:id", buscarUsuarioPorId);
+
+// Rota para criar usuário
+router.post("/usuarios", criarUsuario);
+
+// Rota para atualizar usuário por ID
+router.put("/usuarios/:id", atualizarUsuarioPorId);
+
+// Rota para deletar usuário por ID
+router.delete("/usuarios/:id", deletarUsuarioPorId);
 
 module.exports = router;

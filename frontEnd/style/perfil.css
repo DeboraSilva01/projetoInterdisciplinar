@@ -78,6 +78,7 @@ body {
   border-radius: 6px;
   font-size: 14px;
   cursor: pointer;
+  
 }
 
 .btn.qr {
@@ -97,31 +98,90 @@ body {
 .tab {
   flex: 1;
   padding: 12px;
-  background-color: #f5f5f5;
+  background-color: #2e7d32;
+  color: white;
+  text-align: center;
+  border-radius: 6px;
   border: none;
   font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s;
+
 }
 
-.tab.active {
-  background-color: #edf2f7;
-  border-bottom: 2px solid #2e7d32;
-}
 
 .content {
   text-align: center;
-  margin-top: 40px;
+  margin: 40px 0px;
 }
 
 .content p {
   color: #555;
   font-size: 16px;
-  margin-bottom: 20px;
+  margin-bottom: 0px;
 }
 
 .btn.explore {
   background-color: #f1f5f9;
   color: #111;
   border: 1px solid #ccc;
+  margin-top: 20px;
 }
+
+
+
+
+.eventos-container {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.evento-card {
+  display: flex;
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  max-width: 800px;
+  margin: 15px auto;
+}
+
+.evento-img-container {
+  width: 150px;
+  height: 150px;
+  background: #eee;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.evento-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.evento-info {
+  padding: 16px;
+  display: flex;
+  text-align: left;
+  flex-direction: column;
+  justify-content: center;
+  flex: 1;
+}
+
+.evento-titulo {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #1a1a1a;
+}
+
+.evento-detalhes {
+  color: #666;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+

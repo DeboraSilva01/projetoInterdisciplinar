@@ -1,6 +1,3 @@
-
-
-
 async function carregarEventos() {
   const idusuario = localStorage.getItem("idusuario"); // ID do usuário autenticado
   console.log("ID do usuário:", idusuario);
@@ -25,8 +22,10 @@ async function carregarEventos() {
 
     // Carrega as inscrições do usuário
     const respostaInscricoes = await fetch(`http://localhost:3000/inscricoes/${idusuario}`);
-    const eventosInscritos = await respostaInscricoes.json();
+    const inscricoes = await respostaInscricoes.json();
 
+    // Verifica se são objetos ou IDs diretos
+    const eventosInscritos = inscricoes.map(i => i.idevento ?? i);
     // Renderiza os eventos na página
     const container = document.getElementById("eventos-container");
     container.innerHTML = ""; // Limpa o container antes de renderizar os eventos
@@ -69,6 +68,15 @@ async function carregarEventos() {
         </div>
       `;
 
+      // Permite editar apenas se for o organizador
+      if (evento.idorganizacao == idusuario) {
+        eventoDiv.addEventListener("dblclick", () => {
+          editarEvento(evento, eventoDiv);
+        });
+        eventoDiv.title = "Clique duplo para editar seu evento";
+        eventoDiv.style.cursor = "pointer";
+      }
+
       // Adiciona evento de clique ao botão "Inscrever-se"
       const botaoInscrever = eventoDiv.querySelector(".btn-primary");
       botaoInscrever.addEventListener("click", () => {
@@ -91,6 +99,7 @@ async function carregarEventos() {
   }
 }
 
+// Função para atualizar o botão na descrição do evento
 function atualizarBotaoDescricao(idevento) {
   const botaoDescricao = document.querySelector(`#botao-inscricao-${idevento}`);
   if (botaoDescricao) {
@@ -98,8 +107,6 @@ function atualizarBotaoDescricao(idevento) {
     botaoDescricao.disabled = true;
   }
 }
-
-
 
 // Função para redirecionar para a página de descrição do evento
 function abrirDescricaoEvento(idevento) {
@@ -110,7 +117,6 @@ function abrirDescricaoEvento(idevento) {
 document.addEventListener("DOMContentLoaded", () => {
   carregarEventos();
 });
-
 
 async function inscreverEvento(idevento) {
   const idusuario = localStorage.getItem("idusuario");
@@ -136,8 +142,6 @@ async function inscreverEvento(idevento) {
     return false; // Retorna falha
   }
 }
-
-
 
 function editarEvento(evento, eventoDiv) {
   // Armazena o conteúdo original do card diretamente no atributo dataset

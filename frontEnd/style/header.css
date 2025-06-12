@@ -2,7 +2,6 @@
 header {
   display: flex;
   background-color: #37c23e; /* Azul vivo */
-  color: white;
   padding: 10px 20px;
   text-align: center;
   justify-content: space-between;
@@ -56,3 +55,5 @@ nav ul li a:hover {
 .icone-login i {
   margin-right: 4px;
 }
+
+

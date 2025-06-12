@@ -43,6 +43,8 @@
   .evento-edicao .btn-success {
     background-color: #28a745;
     color: white;
+    margin-top: 30px;
+    width: auto; /* Remove o tamanho fixo */
   }
   
   .evento-edicao .btn-success:hover {
@@ -63,3 +65,8 @@
 .evento-edicao .btn-danger:hover {
     background-color: #c82333;
 }
+
+
+
+
+

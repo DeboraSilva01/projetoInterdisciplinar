@@ -1,17 +1,15 @@
 async function carregarDescricaoEvento() {
-  const idusuario = localStorage.getItem("idusuario"); // ID do usuário autenticado
+  const idusuario = localStorage.getItem("idusuario");
   const params = new URLSearchParams(window.location.search);
-  const idevento = params.get("idevento"); // Obtém o ID do evento da URL
+  const idevento = params.get("idevento");
 
   try {
     // Carrega os detalhes do evento
     const respostaEvento = await fetch(`http://localhost:3000/eventos/${idevento}`);
-    if (!respostaEvento.ok) {
-      throw new Error("Erro ao carregar os detalhes do evento.");
-    }
+    if (!respostaEvento.ok) throw new Error("Erro ao carregar os detalhes do evento.");
     const evento = await respostaEvento.json();
 
-    // Atualiza os detalhes do evento na página
+    // Preenche os dados na tela
     document.querySelector(".evento-titulo").textContent = evento.nomeevento;
     document.querySelector(".descricao-evento").textContent = `Descrição: ${evento.descricao}`;
     document.querySelector(".equipamentos-evento").textContent = `Equipamentos: ${evento.equipamentos || 'Nenhum equipamento especificado'}`;
@@ -20,55 +18,46 @@ async function carregarDescricaoEvento() {
     document.querySelector(".local-evento").textContent = `Local: ${evento.local}`;
     document.querySelector(".vagas-evento").textContent = `Vagas: ${evento.vagas}`;
 
-    // Atualiza o botão de inscrição
     const botaoInscricao = document.getElementById("botao-inscricao");
+    const qrCodeContainer = document.getElementById("qrCodeContainer");
 
     if (evento.idorganizacao == idusuario) {
-      // Se o usuário for o organizador, exibe o QR Code
-      const qrCodeContainer = document.getElementById("qrCodeContainer");
+      // Organizador: mostra QRCode e botão de download
       const qrCodePath = evento.qrCodePath || `/frontEnd/images/qrcodes/${evento.qr_code}.png`;
-
       qrCodeContainer.innerHTML = `
-        <h3>QR Code do Evento</h3>
-        <img src="${qrCodePath}" alt="QR Code do Evento" class="qr-code-img">
-      `;
+    <a href="${qrCodePath}" download="qrcode-evento-${evento.idevento}.png" class="btn btn-success mt-2 mb-3">
+      Baixar QR Code
+    </a>
+  `;
 
-      // Remove o botão de inscrição
-      botaoInscricao.innerHTML = ""; 
+      botaoInscricao.innerHTML = ""; // Não mostra botão de inscrição para organizador
     } else {
-      // Verifica se o usuário já está inscrito no evento
+      // Participante: mostra botão de inscrição ou inscrito
       const respostaInscricoes = await fetch(`http://localhost:3000/inscricoes/${idusuario}`);
-      if (!respostaInscricoes.ok) {
-        throw new Error("Erro ao carregar inscrições.");
-      }
-      const eventosInscritos = await respostaInscricoes.json();
+      const inscricoes = await respostaInscricoes.json();
+      const eventosInscritos = inscricoes.map(i => i.idevento ?? i);
       const inscrito = eventosInscritos.includes(parseInt(idevento));
-
       botaoInscricao.innerHTML = inscrito
         ? `<button class="btn btn-success btn-lg mt-3" disabled>Inscrito</button>`
         : `<button class="btn btn-primary btn-lg mt-3" onclick="inscreverEvento(${idevento})">Inscrever-se</button>`;
+      qrCodeContainer.innerHTML = ""; // Não mostra QRCode para não organizador
     }
   } catch (error) {
     console.error("Erro ao carregar a descrição do evento:", error);
   }
 }
 
-// Função para inscrever-se no evento
 async function inscreverEvento(idevento) {
   const idusuario = localStorage.getItem("idusuario");
-
   try {
     const resposta = await fetch(`http://localhost:3000/eventos/${idevento}/inscrever`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ idusuario }),
     });
-
     if (resposta.ok) {
       alert("Inscrição realizada com sucesso!");
-      window.location.reload(); // Recarrega a página para atualizar o status
+      window.location.reload();
     } else {
       alert("Erro ao realizar inscrição.");
     }
@@ -77,5 +66,4 @@ async function inscreverEvento(idevento) {
   }
 }
 
-// Inicializa a função ao carregar a página
 document.addEventListener("DOMContentLoaded", carregarDescricaoEvento);

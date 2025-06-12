@@ -8,10 +8,6 @@ async function inscreverUsuario(req, res) {
 
   console.log("Dados recebidos no backend:", { idevento, idusuario });
 
-  if (!idusuario) {
-    return res.status(400).json({ mensagem: "O campo 'idusuario' é obrigatório." });
-  }
-
   try {
     // Verifica se o evento existe
     const eventoExistente = await evento.findOne({ where: { idevento } });
@@ -61,16 +57,11 @@ async function listarInscricoesPorUsuario(req, res) {
   try {
     const inscricoes = await inscricao.findAll({
       where: { idusuario },
-      attributes: ["idevento"], // Retorna apenas os IDs dos eventos
+      attributes: ["idevento", "status"], // Aqui você já está pedindo o status (certo!)
     });
 
-    if (!inscricoes || inscricoes.length === 0) {
-      return res.status(200).json([]); // Retorna uma lista vazia se não houver inscrições
-    }
-
-    const eventosInscritos = inscricoes.map((inscricao) => inscricao.idevento);
-
-    res.status(200).json(eventosInscritos);
+    // 🔧 Retorna o array diretamente, sem map
+    res.status(200).json(inscricoes);
   } catch (error) {
     console.error("Erro ao listar inscrições:", error);
     res.status(500).json({ mensagem: "Erro ao listar inscrições." });

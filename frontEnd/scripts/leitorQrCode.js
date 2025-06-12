@@ -2,7 +2,8 @@ let html5QrCode;
 
 function abrirModal() {
   const modal = document.getElementById("modal");
-  modal.style.display = "flex";
+  modal.style.display = "block";
+  const closeButton = document.getElementById("close-button");
 
   setTimeout(() => {
     const qrCodeDiv = document.getElementById("reader");

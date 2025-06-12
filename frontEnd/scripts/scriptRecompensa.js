@@ -14,13 +14,24 @@ async function carregarRecompensas() {
       headers: { "Authorization": `Bearer ${localStorage.getItem("token")}` }
     });
 
+    const container = document.getElementById("recompensas-container");
+
     if (!resposta.ok) {
+      if (resposta.status === 404) {
+        // Não há recompensas para o usuário
+        container.innerHTML = `<p class="text-center mt-4">Você ainda não possui recompensas. Participe de eventos para ganhar!</p>`;
+        return;
+      }
       throw new Error("Erro ao buscar recompensas.");
     }
 
     const recompensas = await resposta.json();
-    const container = document.getElementById("recompensas-container");
     container.innerHTML = ""; // Limpa o conteúdo existente
+
+    if (recompensas.length === 0) {
+      container.innerHTML = `<p class="text-center mt-4">Você ainda não possui recompensas. Participe de eventos para ganhar!</p>`;
+      return;
+    }
 
     // Exibe recompensas no HTML
     recompensas.forEach(recompensa => {
@@ -28,10 +39,9 @@ async function carregarRecompensas() {
       card.className = "card";
 
       card.innerHTML = `
-        <span class="categoria">Desconto</span>
-        <span class="pontos-recompensa">${recompensa.pontos} pontos</span>
+        <span class="categoria">Recompensa</span>
         <h3>${recompensa.descricao}</h3>
-        <p>${recompensa.desconto}% de desconto.</p>
+        <p>${recompensa.desconto}.</p>
         <small>Validade: ${recompensa.validade}</small>
         <button>Resgatar</button>
       `;
@@ -41,7 +51,7 @@ async function carregarRecompensas() {
 
   } catch (error) {
     console.error("Erro ao carregar recompensas:", error);
-    alert("Erro ao carregar recompensas.");
+    document.getElementById("recompensas-container").innerHTML = `<p class="text-center mt-4 text-danger">Erro ao carregar recompensas.</p>`;
   }
 }
 

@@ -10,7 +10,5 @@ router.post("/eventos/:id/inscrever", inscreverUsuario);
 router.post("/validar-presenca", validarPresenca);
 router.get("/inscricoes/:idusuario", listarInscricoesPorUsuario);
 
-// Rota para listar inscrições de um usuário
-//router.get("/inscricoes/:idusuario", listarInscricoesPorUsuario);
 
 module.exports = router;

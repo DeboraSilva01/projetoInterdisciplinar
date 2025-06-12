@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Instituto Verde Vivo</title>
-    <script src="https://unpkg.com/html5-qrcode"></script>
+  <link rel="shortcut icon" href="../images/logo-tecnoeco-ico.ico" type="image/x-icon">  <title>Perfil</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
   <link rel="stylesheet" href="../style/perfil.css" />
   <link rel="stylesheet" href="../style/qrCode.css">
 </head>
@@ -16,12 +16,10 @@
     <div class="profile-header">
       <div class="avatar"></div>
       <div class="profile-info">
-        <h1>Instituto Verde Vivo</h1>
-        <p class="email">contato@verdevivo.org</p>
+        <h1>Carregando nome...</h1>
+        <p class="email">Carregando e-mail...</p>
         <div class="stats">
-          <span class="badge green">0 pontos</span>
-          <span class="badge blue">0 eventos participados</span>
-          <span class="badge purple">2 eventos criados</span>
+          <span id="eventos-participados-count" class="badge blue">0 eventos participados</span>
         </div>
       </div>
       <div class="buttons">
@@ -32,34 +30,34 @@
     </div>
 
     <div class="tabs">
-      <button class="tab active">Eventos Participados</button>
-      <button class="tab">Eventos Criados</button>
+      <p class="tab">Eventos Participados</p>
     </div>
 
-    <div class="content">
-      <p>Você ainda não participou de nenhum evento.</p>
-      <button class="btn explore">Explorar eventos</button>
-    </div>
-
-
-      <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="fecharModal()">&times;</span>
-      <h2>Escanear QR Code do Evento</h2>
-      <div id="reader" style="width: 300px; margin: 20px auto;"></div>
-      <p id="eventoNomeModal"></p>
-    </div>
+    <div id="eventos-participados-lista" class="content">
+    <p>Você ainda não participou de nenhum evento.</p>
+    <a href="../pages/index.html">  <button class="btn explore">Explorar eventos</button></a>
+  
   </div>
 
 
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="fecharModal()">&times;</span>
+    <h2>Escanear QR Code do Evento</h2>
+    <div id="reader" style="width: 300px; margin: 20px auto;"></div>
+    <p id="eventoNomeModal"></p>
+  </div>
+</div>
+
   </div>
 
-    <div>
-        <footer></footer>
-    </div>
-
-    <script src="../scripts/leitorQrCode.js"></script>
+  
+  <script src="../scripts/leitorQrCode.js"></script>
     <script src="/frontEnd/scripts/footer.js"></script>
     <script src="/frontEnd/scripts/headerLoader.js"></script>
-</body>
+    <script src="../scripts/scriptPerfil.js"></script>
+  </body>
+  <div>
+      <footer></footer>
+  </div>
 </html>
